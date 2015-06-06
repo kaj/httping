@@ -49,9 +49,9 @@ def getstats(urls):
             start = time()
             length = sum(len(row) for row in urlopen(url))
             elapsed = time() - start
-            lines.append('%s.%s.%s %s %d' % (options.base, 'time', getname(url),
+            lines.append('%s.%s.%s %s %d' % (options.base, getname(url), 'time',
                                              elapsed, int(start)))
-            lines.append('%s.%s.%s %s %s' % (options.base, 'size', getname(url),
+            lines.append('%s.%s.%s %s %s' % (options.base, getname(url), 'size',
                                              length, int(start)))
         except Exception as err:
             print "Failed to get %s: %s" % (url, err)
@@ -60,7 +60,7 @@ def getstats(urls):
 if __name__ == '__main__':
     while True:
         message = '\n'.join(getstats(urls)) + '\n' #all lines must end in a newline
-        if options.verbose or not sock:
+        if options.verbose or options.nocarbon:
             print "sending message"
             print '-' * 80
             print message
