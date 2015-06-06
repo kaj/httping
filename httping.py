@@ -26,16 +26,16 @@ opt.add_option('--delay', dest='delay', default=60,
                help='Seconds to wait between measurments [%default]')
 (options, urls) = opt.parse_args()
 
-def openCarbon():
-    if options.nocarbon:
-        return None
-    try:
-        sock.connect( (options.server,options.port) )
-    except:
-        print "Couldn't connect to %(server)s on port %(port)d, is carbon-agent.py running?" % { 'server':options.server, 'port':options.port }
-        exit(1)
 
-sock = openCarbon()
+def sendStats(message):
+    if not options.nocarbon:
+        try:
+            sock = socket()
+            sock.connect( (options.server,options.port) )
+            sock.sendall(message)
+            sock.close()
+        except:
+            print "Couldn't connect to %(server)s on port %(port)d, is carbon-agent.py running?" % { 'server':options.server, 'port':options.port }
 
 def getname(url):
     '''Get time series name for a given url'''
@@ -64,7 +64,5 @@ if __name__ == '__main__':
             print "sending message"
             print '-' * 80
             print message
-            print
-        if sock:
-            sock.sendall(message)
+        sendStats(message)
         sleep(options.delay)
