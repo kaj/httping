@@ -22,7 +22,7 @@ opt.add_option('--server', dest='server', default='localhost',
                help='Carbon server to send messages to [%default]')
 opt.add_option('--port', dest='port', default=2003,
                help='Carbon port to send messages to [%default]')
-opt.add_option('--delay', dest='delay', default=60,
+opt.add_option('--delay', dest='delay', type='float', default=60,
                help='Seconds to wait between measurments [%default]')
 (options, urls) = opt.parse_args()
 
